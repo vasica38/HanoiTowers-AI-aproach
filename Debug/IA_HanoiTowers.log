@@ -1,0 +1,13 @@
+﻿  Source.cpp
+c:\users\vasile catana\documents\visual studio 2017\projects\ia_hanoitowers\header.h(93): warning C4091: 'typedef ': ignored on left of 'hanoi::State' when no variable is declared
+c:\users\vasile catana\documents\visual studio 2017\projects\ia_hanoitowers\header.h(82): warning C4018: '<': signed/unsigned mismatch
+c:\users\vasile catana\documents\visual studio 2017\projects\ia_hanoitowers\header.h(108): warning C4018: '<': signed/unsigned mismatch
+c:\users\vasile catana\documents\visual studio 2017\projects\ia_hanoitowers\header.h(115): warning C4018: '<': signed/unsigned mismatch
+c:\users\vasile catana\documents\visual studio 2017\projects\ia_hanoitowers\header.h(159): warning C4018: '<': signed/unsigned mismatch
+c:\users\vasile catana\documents\visual studio 2017\projects\ia_hanoitowers\header.h(192): warning C4018: '<': signed/unsigned mismatch
+c:\users\vasile catana\documents\visual studio 2017\projects\ia_hanoitowers\header.h(226): warning C4018: '<': signed/unsigned mismatch
+c:\users\vasile catana\documents\visual studio 2017\projects\ia_hanoitowers\header.h(258): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\vasile catana\documents\visual studio 2017\projects\ia_hanoitowers\source.cpp(16): warning C4018: '<': signed/unsigned mismatch
+c:\users\vasile catana\documents\visual studio 2017\projects\ia_hanoitowers\source.cpp(20): warning C4018: '<': signed/unsigned mismatch
+  IA_HanoiTowers.vcxproj -> C:\Users\Vasile Catana\Documents\Visual Studio 2017\Projects\IA_HanoiTowers\Debug\IA_HanoiTowers.exe
+  IA_HanoiTowers.vcxproj -> C:\Users\Vasile Catana\Documents\Visual Studio 2017\Projects\IA_HanoiTowers\Debug\IA_HanoiTowers.pdb (Partial PDB)
