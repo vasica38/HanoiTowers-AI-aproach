@@ -2,6 +2,7 @@
 #include<iostream>
 #include<vector>
 #include<stack>
+#include<queue>
 
 #include<math.h>
 #include<time.h>
@@ -95,6 +96,7 @@ namespace hanoi {
 	std::vector<State*> st;
 	std::vector<std::pair<int, int> > allMoves;
 	std::vector<std::pair<int, int> > solMoves;
+	std::vector<std::vector< std::pair<int, State*> > > g;
 
 	bool isGoodRecursive{ true };
 
@@ -187,6 +189,48 @@ namespace hanoi {
 		return v;
 	}
 
+	int sumFromStack(std::stack<int> st)
+	{
+		int s{ 0 };
+		while (st.size())
+		{
+			s += st.top();
+			st.pop();
+		}
+
+		return s;
+	}
+
+	double functionOne(State* state)
+	{
+		double pow = state->nrOfDisks ;
+		double sol{ 0 };
+
+		for (int i = 0; i < state->a.size(); ++i)
+		{
+			sol = sol * pow + sumFromStack(state->a[i]);
+		}
+
+		return sol;
+	}
+
+
+	double functioneTwo(State* state)
+	{
+		double sol{ 0 };
+		for (int i = 0; i < state->a.size(); ++i)
+		{
+			sol += sumFromStack(state->a[i]) * (state->a.size() - i);
+		}
+
+		return sol;
+	}
+
+	double function(State* state1)
+	{
+		return functionOne(state1) + functioneTwo(state1);
+	}
+
 	void printState(State* state)
 	{
 		for (int i = 0; i < state->a.size(); ++i) {
@@ -208,6 +252,53 @@ namespace hanoi {
 		}
 
 		std::cout << "\n\n\n";
+	}
+
+	void generateGraph(int nrOfTowers, int nrOfTiles)
+	{
+		State* startState = new State(nrOfTowers, nrOfTiles);
+		g.resize(100000);
+		std::queue<std::pair<int, State*> > q;
+		q.push({ 1, startState });
+		g[1].push_back({ 1, startState });
+		int nr{ 1 };
+		bool isDone{ false };
+
+		while (!q.empty() && !isDone)
+		{
+			int x{ q.front().first };
+			State* currState{q.front().second};
+			printState(currState);
+			q.pop();
+			std::vector<State*> v{ getNeighbours(currState) };
+			
+			State* toSave{ nullptr };
+			double mx{ 0.0 };
+			int idx{ 0 };
+			std::sort(v.begin(), v.end(), [](State* s1, State* s2)->bool 
+			{
+				return function(s1) > function(s2);
+			});
+			for (int i = 0; i < v.size(); ++i)
+			{
+				g[x].push_back({ ++nr, v[i] });
+				
+				if (function(v[i]) > mx) {
+					mx = function(v[i]);
+					toSave = v[i];
+					idx = nr;
+				}
+
+				if (v[i]->isDone())
+				{
+					isDone = true;
+					printState(v[i]);
+				}
+
+				q.push({ nr, v[i] });
+			}
+		}
+
 	}
 
 	void solveHillClimbing(int nrOfTowers, int nrOfTiles)
@@ -284,4 +375,4 @@ namespace hanoi {
 	}
 
 
-}
+} // namespace hanoi
