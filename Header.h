@@ -100,6 +100,76 @@ namespace hanoi {
 
 	bool isGoodRecursive{ true };
 
+	std::stack<State*> stack;
+
+	void printState(State* state)
+	{
+		for (int i = 0; i < state->a.size(); ++i) {
+			std::cout << "stack " << i + 1 << ": ";
+			std::stack<int> s = state->a[i];
+			std::vector<int> sol;
+			while (!s.empty())
+			{
+				sol.push_back(s.top());
+				s.pop();
+			}
+
+			std::reverse(sol.begin(), sol.end());
+			for (auto it : sol)
+			{
+				std::cout << it << " ";
+			}
+			std::cout << "\n";
+		}
+
+		std::cout << "\n\n\n";
+	}
+
+	void btIterative(int nrOfTowers, int nrOfTiles)
+	{
+		State* startState = new State(nrOfTowers, nrOfTiles);
+		stack.push(startState);
+
+		while (!stack.empty())
+		{
+			State* curr{ stack.top() };
+			stack.pop();
+			printState(curr);
+			if (curr->isDone())
+			{
+				break;
+			}
+
+			for (int i = 0; i < allMoves.size(); ++i)
+			{
+				int x{ allMoves[i].first };
+				int y{ allMoves[i].second };
+				State* newState = curr->newMove(x, y);
+				if (!newState) continue;
+				bool isOk{ true };
+				for (int j = 0; j < st.size(); ++j)
+				{
+					if (*st[j] == *newState)
+					{
+						isOk = false;
+						break;
+					}
+				}
+
+				if (isGoodRecursive) {
+
+					if (isOk)
+					{
+						st.push_back(newState);
+						//solMoves.push_back({ x, y });
+						stack.push(newState);
+					}
+				}
+			}
+
+		}
+	}
+
 	void bt(int k, State* currentState)
 	{
 		if (currentState->isDone())
@@ -152,7 +222,8 @@ namespace hanoi {
 			}
 		}
 
-		bt(0, startState);
+		//bt(0, startState);
+		btIterative(nrOfTowers, nrOfTiles);
 	}
 
 	int fitness(State* state)
@@ -229,29 +300,6 @@ namespace hanoi {
 	double function(State* state1)
 	{
 		return functionOne(state1) + functioneTwo(state1);
-	}
-
-	void printState(State* state)
-	{
-		for (int i = 0; i < state->a.size(); ++i) {
-			std::cout << "stack " << i + 1 << ": ";
-			std::stack<int> s = state->a[i];
-			std::vector<int> sol;
-			while (!s.empty())
-			{
-				sol.push_back(s.top());
-				s.pop();
-			}
-
-			std::reverse(sol.begin(), sol.end());
-			for (auto it : sol)
-			{
-				std::cout << it << " ";
-			}
-			std::cout << "\n";
-		}
-
-		std::cout << "\n\n\n";
 	}
 
 	void generateGraph(int nrOfTowers, int nrOfTiles)
@@ -375,4 +423,4 @@ namespace hanoi {
 	}
 
 
-} // namespace hanoi
+}
